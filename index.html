@@ -1,34 +1,122 @@
-// Global variables
-let articles = [];
-let advertisements = [];
-let currentView = 'home';
-let currentArticleId = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your existing head content (meta, title, styles) -->
+    <style>
+        /* Your existing CSS styles */
+    </style>
+</head>
+<body>
+    <!-- Your existing HTML content -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" onclick="showHome()">NewsHub</div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showHome()">Home</button>
+                    <button class="btn btn-primary" onclick="toggleView('cms')">Manage Content</button>
+                </div>
+            </div>
+        </div>
+    </header>
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeData();
-    parseURL();
-    handleImageUpload();
-    renderArticles();
-    loadAdManagement();
-});
+    <main>
+        <!-- Your existing main content -->
+    </main>
 
-// Make sure toggleView is defined in the global scope
-function toggleView(view) {
-    currentView = view;
-    const homeView = document.getElementById('home-view');
-    const articleView = document.getElementById('article-view');
-    const cmsView = document.getElementById('cms-view');
-    
-    if (view === 'cms') {
-        homeView.classList.add('hidden');
-        articleView.classList.add('hidden');
-        cmsView.style.display = 'block';
-        loadAdManagement();
-    } else {
-        showHome();
-    }
-    updateURL();
-}
+    <!-- JavaScript at the end of the body to ensure DOM is loaded -->
+    <script>
+        // Global variables
+        let articles = [];
+        let advertisements = [];
+        let currentView = 'home';
+        let currentArticleId = null;
 
-// Other functions...
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            parseURL();
+            handleImageUpload();
+            renderArticles();
+            loadAdManagement();
+        });
+
+        // Make sure toggleView is defined in the global scope
+        function toggleView(view) {
+            currentView = view;
+            const homeView = document.getElementById('home-view');
+            const articleView = document.getElementById('article-view');
+            const cmsView = document.getElementById('cms-view');
+            
+            if (view === 'cms') {
+                homeView.classList.add('hidden');
+                articleView.classList.add('hidden');
+                cmsView.style.display = 'block';
+                loadAdManagement();
+            } else {
+                showHome();
+            }
+            updateURL();
+        }
+
+        // Other functions (showHome, showArticle, etc.)
+        function showHome() {
+            currentView = 'home';
+            currentArticleId = null;
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('article-view').classList.add('hidden');
+            document.getElementById('cms-view').style.display = 'none';
+            renderArticles();
+            updateURL();
+        }
+
+        function initializeData() {
+            const savedArticles = localStorage.getItem('newsArticles');
+            const savedAds = localStorage.getItem('newsAds');
+            
+            if (savedArticles) {
+                articles = JSON.parse(savedArticles);
+            } else {
+                // Sample articles for demonstration
+                articles = [
+                    {
+                        id: 1,
+                        title: "Breaking: Revolutionary AI Technology Unveiled",
+                        author: "Tech Reporter",
+                        category: "technology",
+                        summary: "Scientists announce groundbreaking AI advancement with unprecedented natural language capabilities.",
+                        content: "Scientists have announced a groundbreaking advancement in artificial intelligence...",
+                        publishDate: new Date().toISOString(),
+                        views: 1250,
+                        image: null,
+                        slug: "revolutionary-ai-technology-unveiled"
+                    }
+                ];
+                saveData();
+            }
+            
+            if (savedAds) {
+                advertisements = JSON.parse(savedAds);
+            } else {
+                // Sample advertisements
+                advertisements = [
+                    {
+                        id: 1,
+                        title: "Premium Web Hosting",
+                        content: "Get 50% off on premium web hosting services.",
+                        position: "sidebar"
+                    }
+                ];
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('newsArticles', JSON.stringify(articles));
+            localStorage.setItem('newsAds', JSON.stringify(advertisements));
+        }
+
+        // Add other functions (renderArticles, publishArticle, etc.) here
+    </script>
+</body>
+</html>
