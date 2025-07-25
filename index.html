@@ -1,0 +1,34 @@
+// Global variables
+let articles = [];
+let advertisements = [];
+let currentView = 'home';
+let currentArticleId = null;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeData();
+    parseURL();
+    handleImageUpload();
+    renderArticles();
+    loadAdManagement();
+});
+
+// Make sure toggleView is defined in the global scope
+function toggleView(view) {
+    currentView = view;
+    const homeView = document.getElementById('home-view');
+    const articleView = document.getElementById('article-view');
+    const cmsView = document.getElementById('cms-view');
+    
+    if (view === 'cms') {
+        homeView.classList.add('hidden');
+        articleView.classList.add('hidden');
+        cmsView.style.display = 'block';
+        loadAdManagement();
+    } else {
+        showHome();
+    }
+    updateURL();
+}
+
+// Other functions...
